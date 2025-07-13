@@ -16,13 +16,17 @@ class MyEventEmitter {
   }
 
   emit(eventName, ...args) {
-    this.listeners[eventName] = this.listeners[eventName].filter(
-      ({ listener, type }) => {
-        listener(...args);
+    if (this.listeners.hasOwnProperty(eventName)) {
+      this.listeners[eventName] = this.listeners[eventName].filter(
+        ({ listener, type }) => {
+          listener(...args);
 
-        return type !== 'once';
-      },
-    );
+          return type !== 'once';
+        },
+      );
+    } else {
+      return undefined;
+    }
   }
 
   once(eventName, listener) {
